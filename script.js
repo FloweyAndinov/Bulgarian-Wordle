@@ -6,8 +6,9 @@ var col = 0; // current letter
 
 var gameOver = false;
 var words = ["SQUID","APPLE"]
-var index = Math.random() * words.length;
+var index = Math.floor(Math.random() * words.length);
 var word = words[index];
+
 
 window.onload = function() {
     initialize();
@@ -34,7 +35,6 @@ function addLetter(e) {
  if ("KeyA" <= e.code && e.code <="KeyZ") {
     if(col < width) {
         let currentTile = document.getElementById (row.toString() + " - " + col.toString());
-        console.log(currentTile)
         if(currentTile.innerText == "") {
             console.log("added");
             currentTile.innerText = e.code[3];
@@ -43,18 +43,67 @@ function addLetter(e) {
     }
    
  }
+ if (e.code=="Backspace") {
+
+    let currentTile = document.getElementById (row.toString() + " - " + (col-1).toString());
+
+    if (col>0) {
+        if(currentTile.innerText != "") {
+            currentTile.innerText = "";
+            col -=1;
+        }
+    }
+ }
  if (e.code == "Enter") {
-    console.log(col.toString());
-    console.log(width.toString())
+
+    if (col<width)
+    return;
+
+    let attemptedWord = "";
+    for (let c=0; c<width; c++) {
+        let currentTile = document.getElementById (row.toString() + " - " + c.toString());
+        attemptedWord +=currentTile.innerText;
+        colorLetters(currentTile,currentTile.innerText,c);
+    }
+    if (word==attemptedWord) {
+        showWord();
+    }
+    if (!gameOver) {
+        startNextAttempt();
+    }
+    
+}
+
+function startNextAttempt() {
     if (col==width) {
-        console.log(row.toString());
-        console.log(height.toString())
         if (row<height) {
-            console.log("this")
             row++;
             col = 0;
         }
+        else {
+            gameOver = true;
+            showWord();
+        }
     }
+}
+
+function showWord() {
+    console.log(word);
+}
+
+function colorLetters(tile,letter,index) {
+    // console.log(tile.innerText)
+    // console.log(letter)
+    // console.log(index)
+if (word[index]==letter) {
+    tile.classList.add("correct");
+}
+else if (word.includes(letter)) {
+    tile.classList.add("present")
+}
+else {
+    tile.classList.add("absent")
+}
 }
  
 }
