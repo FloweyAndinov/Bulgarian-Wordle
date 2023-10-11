@@ -5,7 +5,25 @@ var row = 0; //current attempt
 var col = 0; // current letter
 
 var gameOver = false;
-var words = ["SQUID","APPLE"]
+const csv = require('csv-parser');
+const fs = require('fs');
+const results = [];
+var words = [];
+fs.createReadStream('cities.csv')
+  .pipe(csv())
+  .on('data', (data) => results.push(data))
+  .on('end', () => {
+    for (let i=0; i<results.length; i++) {
+        let city = results[i].GRAD;
+        if (city.length==width) {
+            words.push(city);
+        }
+      }
+  });
+
+  
+  
+
 var index = Math.floor(Math.random() * words.length);
 var word = words[index];
 
