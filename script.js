@@ -5,27 +5,17 @@ var row = 0; //current attempt
 var col = 0; // current letter
 
 var gameOver = false;
-const csv = require('csv-parser');
-const fs = require('fs');
-const results = [];
-var words = [];
-fs.createReadStream('cities.csv')
-  .pipe(csv())
-  .on('data', (data) => results.push(data))
-  .on('end', () => {
-    for (let i=0; i<results.length; i++) {
-        let city = results[i].GRAD;
-        if (city.length==width) {
-            words.push(city);
-        }
-      }
-  });
 
-  
-  
+var word = "";
 
-var index = Math.floor(Math.random() * words.length);
-var word = words[index];
+
+let result = fetch('/request', {
+    method: 'GET'
+})
+   .then(response => response.json())
+   .then(response => word=response.message.toUpperCase())
+   .then(response => console.log(word))
+
 
 
 window.onload = function() {
@@ -44,52 +34,61 @@ function initialize () {
         }
     }
 
-    document.addEventListener("keyup", addLetter);
+    document.addEventListener("keypress", addLetter);
+    document.addEventListener("keyup", changeOrSubmit);
 }
 
 function addLetter(e) {
  if (gameOver) return;
-//   alert(e.code);
- if ("KeyA" <= e.code && e.code <="KeyZ") {
+ var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
+ var typedChar = String.fromCharCode(charCode);
+
+//  alert("Typed character: " + e.code);
+
+    const cyrillicPattern = /^[\u0400-\u04FF]+$/;
+
+ if (cyrillicPattern.test(typedChar)) {
     if(col < width) {
         let currentTile = document.getElementById (row.toString() + " - " + col.toString());
         if(currentTile.innerText == "") {
             console.log("added");
-            currentTile.innerText = e.code[3];
+            currentTile.innerText = typedChar.toUpperCase();
             col +=1;
         }
     }
    
- }
- if (e.code=="Backspace") {
+ }  
+}
 
-    let currentTile = document.getElementById (row.toString() + " - " + (col-1).toString());
+function changeOrSubmit(e) {
+    if (e.code=="Backspace") {
 
-    if (col>0) {
-        if(currentTile.innerText != "") {
-            currentTile.innerText = "";
-            col -=1;
+        let currentTile = document.getElementById (row.toString() + " - " + (col-1).toString());
+        // console.log(row + " " + col);
+        if (col>0) {
+            if(currentTile.innerText != "") {
+                currentTile.innerText = "";
+                col -=1;
+            }
         }
-    }
- }
- if (e.code == "Enter") {
-
-    if (col<width)
-    return;
-
-    let attemptedWord = "";
-    for (let c=0; c<width; c++) {
-        let currentTile = document.getElementById (row.toString() + " - " + c.toString());
-        attemptedWord +=currentTile.innerText;
-        colorLetters(currentTile,currentTile.innerText,c);
-    }
-    if (word==attemptedWord) {
-        showWord();
-    }
-    if (!gameOver) {
-        startNextAttempt();
-    }
+     }
+     if (e.code == "Enter") {
     
+        if (col<width)
+        return;
+    
+        let attemptedWord = "";
+        for (let c=0; c<width; c++) {
+            let currentTile = document.getElementById (row.toString() + " - " + c.toString());
+            attemptedWord +=currentTile.innerText;
+            colorLetters(currentTile,currentTile.innerText,c);
+        }
+        if (word==attemptedWord) {
+            showWord();
+        }
+        if (!gameOver) {
+            startNextAttempt();
+        }
 }
 
 function startNextAttempt() {
