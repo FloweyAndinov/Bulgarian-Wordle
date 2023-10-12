@@ -93,19 +93,22 @@ function changeOrSubmit(e) {
 
 function startNextAttempt() {
     if (col==width) {
-        if (row<height) {
+        console.log(row + " " + height);
+        if (row<height-1) {
             row++;
             col = 0;
         }
         else {
-            gameOver = true;
+            console.log("word show")
             showWord();
         }
     }
 }
 
 function showWord() {
-    console.log(word);
+    gameOver = true;
+
+    document.getElementById("answer").innerText = word;
 }
 
 function colorLetters(tile,letter,index) {
