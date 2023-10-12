@@ -14,7 +14,7 @@ let result = fetch('/request', {
 })
    .then(response => response.json())
    .then(response => word=response.message.toUpperCase())
-   .then(response => console.log(word))
+//    .then(response => console.log(word))
 
 
 
@@ -39,11 +39,12 @@ function initialize () {
 }
 
 function addLetter(e) {
+    
  if (gameOver) return;
  var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
  var typedChar = String.fromCharCode(charCode);
 
-//  alert("Typed character: " + e.code);
+// console.log(typedChar);
 
     const cyrillicPattern = /^[\u0400-\u04FF]+$/;
 
@@ -51,13 +52,18 @@ function addLetter(e) {
     if(col < width) {
         let currentTile = document.getElementById (row.toString() + " - " + col.toString());
         if(currentTile.innerText == "") {
-            console.log("added");
+            // console.log("added");
             currentTile.innerText = typedChar.toUpperCase();
             col +=1;
         }
     }
    
+   
  }  
+    else if (/^[0-9a-z]+$/.test(typedChar) || /^[0-9A-Z]+$/.test(typedChar)) // check if char is alphanumeric
+     {
+    shakeText(row);
+     }
 }
 
 function changeOrSubmit(e) {
@@ -72,10 +78,12 @@ function changeOrSubmit(e) {
             }
         }
      }
-     if (e.code == "Enter") {
+      if (e.code == "Enter") {
     
-        if (col<width)
-        return;
+        if (col<width) {
+            shakeText(row);
+            return;
+        }
     
         let attemptedWord = "";
         for (let c=0; c<width; c++) {
@@ -89,17 +97,20 @@ function changeOrSubmit(e) {
         if (!gameOver) {
             startNextAttempt();
         }
+    
+    }
 }
+
 
 function startNextAttempt() {
     if (col==width) {
-        console.log(row + " " + height);
+        // console.log(row + " " + height);
         if (row<height-1) {
             row++;
             col = 0;
         }
         else {
-            console.log("word show")
+            // console.log("word show")
             showWord();
         }
     }
@@ -125,5 +136,15 @@ else {
     tile.classList.add("absent")
 }
 }
- 
+
+
+function shakeText(row) {
+for (let i=0; i<width; i++) {
+    let currentTile = document.getElementById (row.toString() + " - " + i.toString());
+    currentTile.classList.add("shake");
+
+    setTimeout(() => {
+        currentTile.classList.remove("shake");
+    }, 500);
+}
 }
