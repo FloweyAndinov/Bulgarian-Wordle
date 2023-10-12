@@ -5,10 +5,15 @@ const https = require('https');
 const express = require('express');
 const app = express()
 const csv = require('csv-parser');
+var favicon = require('serve-favicon');
+var path = require('path');
 const fs = require('fs');
 const results = [];
 let words = [];
 let word = ""
+
+
+
 fs.createReadStream('cities.csv')
   .pipe(csv())
   .on('data', (data) => results.push(data))
@@ -23,18 +28,28 @@ fs.createReadStream('cities.csv')
       }
       getWord()
   });
+
+
+
+
+
   function getWord() {
     let index = Math.floor(Math.random() * words.length)
     word = words[index]
      console.log(word)
   }
   
+
+
   const port = process.env.PORT || 5000;
   app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
   });
 
-  app.use(express.static(__dirname));
+
+  app.use(favicon('favicon.ico')); 
+   app.use(express.static(__dirname));
+  
 
 app.get('/request' , (req , res) => {
     console.log("requested");
