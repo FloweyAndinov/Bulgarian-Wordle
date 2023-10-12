@@ -26,18 +26,28 @@ fs.createReadStream('cities.csv')
             
         }
       }
-      getWord()
+       getWord() //first call
   });
 
 
 
 
 
-  function getWord() {
+function getWord() {
     let index = Math.floor(Math.random() * words.length)
     word = words[index]
      console.log(word)
   }
+
+  
+  var seconds = 5;
+  var ms = seconds * 1000;
+  setInterval(function() {
+    console.log("I am doing my 5 minutes check");
+    let index = Math.floor(Math.random() * words.length)
+      word = words[index]
+       console.log(word)
+  }, ms);
   
 
 
@@ -59,6 +69,7 @@ app.get('/request' , (req , res) => {
 
 app.get('/' , (req , res) => {
     console.log("requested");
+    getWord() // change word with each refresh
     res.sendFile(__dirname + '/index.html')
 
 })
