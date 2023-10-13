@@ -3,7 +3,7 @@ body {
     text-align: center;
 }
 hr {
-    width: 70%;
+    width: 80%;
 }
 
 #title {
@@ -12,7 +12,7 @@ hr {
     letter-spacing: 1px;
 }
 #board {
-    width: 350px;
+    width: 380px;
     height: 500px;
     margin: 0 auto;
     display: flex;
@@ -20,9 +20,26 @@ hr {
 
 }
 
+.blur {
+    border-color: red;
+}
+
 .tile {
     display: inline-flex;
-    border: 1px solid black;
+    border: 2px solid black;
+    width: 60px;
+    height: 60px;
+    margin: 2.5px;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    font-weight: bold;
+
+}
+
+.tile_blur {
+    display: inline-flex;
+    border: 2px solid red;
     width: 60px;
     height: 60px;
     margin: 2.5px;

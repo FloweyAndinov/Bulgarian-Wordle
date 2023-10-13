@@ -36,6 +36,21 @@ function initialize () {
 
     document.addEventListener("keypress", addLetter);
     document.addEventListener("keyup", changeOrSubmit);
+
+    window.addEventListener('blur', function() {
+        let elements = document.getElementsByTagName("span")
+        for (let i=0; i<elements.length; i++) {
+            elements[i].className += "_blur";
+        }
+      });
+      
+      window.addEventListener('focus', function() {
+        let boxes = document.querySelectorAll(".tile_blur");
+
+        boxes.forEach(box => {
+            box.className = "tile";
+        });
+      });
 }
 
 function addLetter(e) {
