@@ -42,8 +42,13 @@ function getWord() {
   
   var seconds = 30;
   var ms = seconds * 1000;
+  var lastIndex = 0;
   setInterval(function() {
     let index = Math.floor(Math.random() * words.length)
+    if (lastIndex==index) {
+      index = Math.floor(Math.random() * words.length)
+    }
+    lastIndex=index
       word = words[index]
        console.log("Changed to " + word)
   }, ms);
