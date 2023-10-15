@@ -37,7 +37,7 @@ hr {
 
 }
 
-.tile_blur {
+.blur {
     display: inline-flex;
     border: 2px solid red;
     width: 60px;

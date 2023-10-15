@@ -40,14 +40,15 @@ function initialize () {
     window.addEventListener('blur', function() {
         let elements = document.querySelectorAll("span")
         elements.forEach(el => {
-            el.className += "_blur";
+            el.classList.add("blur");
         });
       });
  
       window.addEventListener('focus', function() {
-        let elements = document.querySelectorAll(".tile_blur");
+        let elements = document.querySelectorAll(".blur");
+        console.log(elements.length)
         elements.forEach(el => {
-            el.className = "tile";
+            el.classList.remove("blur");
         });
       });
 }
