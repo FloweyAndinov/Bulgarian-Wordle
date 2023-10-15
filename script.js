@@ -46,7 +46,7 @@ function initialize () {
  
       window.addEventListener('focus', function() {
         let elements = document.querySelectorAll(".blur");
-        console.log(elements.length)
+        // console.log(elements.length)
         elements.forEach(el => {
             el.classList.remove("blur");
         });
