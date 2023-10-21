@@ -8,7 +8,7 @@ var gameOver = false;
 
 var word = "";
 
-
+//fetches the word from back-end
 let result = fetch('/request', {
     method: 'GET'
 })
@@ -34,9 +34,11 @@ function initialize () {
         }
     }
 
-    document.addEventListener("keypress", addLetter);
-    document.addEventListener("keyup", changeOrSubmit);
+    document.addEventListener("keypress", addLetter); // event for adding letter
+    document.addEventListener("keyup", changeOrSubmit); // event for changing letter, submitting word
 
+
+    //blur when window not focused
     window.addEventListener('blur', function() {
         let elements = document.querySelectorAll("span")
         elements.forEach(el => {
@@ -44,6 +46,8 @@ function initialize () {
         });
       });
  
+
+      //unblur when window focused
       window.addEventListener('focus', function() {
         let elements = document.querySelectorAll(".blur");
         // console.log(elements.length)
@@ -61,7 +65,7 @@ function addLetter(e) {
 
 // console.log(typedChar);
 
-    const cyrillicPattern = /^[\u0400-\u04FF]+$/;
+    const cyrillicPattern = /^[\u0400-\u04FF]+$/; // regex for cyrillic letters
 
  if (cyrillicPattern.test(typedChar)) {
     if(col < width) {
@@ -82,8 +86,9 @@ function addLetter(e) {
 }
 
 function changeOrSubmit(e) {
-    if (e.code=="Backspace") {
 
+    if (e.code=="Backspace") {
+        //delete letter
         let currentTile = document.getElementById (row.toString() + " - " + (col-1).toString());
         // console.log(row + " " + col);
         if (col>0) {
@@ -94,7 +99,7 @@ function changeOrSubmit(e) {
         }
      }
       if (e.code == "Enter") {
-    
+        //submit word
         if (col<width) {
             shakeText(row);
             return;

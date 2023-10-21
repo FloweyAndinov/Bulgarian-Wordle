@@ -41,8 +41,10 @@ function getWord() {
 
   
   var seconds = 30;
-  var ms = seconds * 1000;
+  var milliseconds = seconds * 1000;
   var lastIndex = 0;
+
+  //change the word every *seconds* seconds
   setInterval(function() {
     let index = Math.floor(Math.random() * words.length)
     if (lastIndex==index) {
@@ -51,29 +53,31 @@ function getWord() {
     lastIndex=index
       word = words[index]
        console.log("Changed to " + word)
-  }, ms);
+  }, milliseconds);
   
 
-
+  //open port
   const port = process.env.PORT || 5000;
   app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
   });
 
-
+  //load favicon
   app.use(favicon('favicon.ico')); 
    app.use(express.static(__dirname));
   
 
+// send the word as response
 app.get('/request' , (req , res) => {
-    console.log("requested");
+    //console.log("requested");
     res.status(200).json({message : word});
 
 })
 
-app.get('/' , (req , res) => {
-    console.log("requested");
-    getWord() // change word with each refresh
-    res.sendFile(__dirname + '/index.html')
+//render webpage
+// app.get('/' , (req , res) => {
+//     console.log("requested");
+//     getWord() // change word with each refresh
+//     res.sendFile(__dirname + '/index.html')
 
-})
+// })
