@@ -20,11 +20,9 @@ fs.createReadStream('cities.csv')
   .on('end', () => {
     for (let i=0; i<results.length; i++) {
         let city = results[i].GRAD;
-        if (city.length==width) {
+          if (city.length==width) {
             words.push(city);
-  
-            
-        }
+          }
       }
        getWord() //first call
   });
@@ -74,10 +72,10 @@ app.get('/request' , (req , res) => {
 
 })
 
-//render webpage
-// app.get('/' , (req , res) => {
-//     console.log("requested");
-//     getWord() // change word with each refresh
-//     res.sendFile(__dirname + '/index.html')
+// render webpage (this doesn't run if html file is index.html)
+app.get('/' , (req , res) => {
+    console.log("requested");
+    // getWord() // change word with each refresh
+    res.sendFile(__dirname + '/anything.html')
 
-// })
+})
