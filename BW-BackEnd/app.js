@@ -14,7 +14,7 @@ let word = ""
 
 
 
-fs.createReadStream('cities.csv')
+fs.createReadStream(__dirname + '/cities.csv')
   .pipe(csv())
   .on('data', (data) => results.push(data))
   .on('end', () => {
@@ -61,8 +61,8 @@ function getWord() {
   });
 
   //load favicon
-  app.use(favicon('favicon.ico')); 
-   app.use(express.static(__dirname));
+  app.use(favicon('./BW-FrontEnd/favicon.ico')); 
+  app.use(express.static(path.resolve('./BW-FrontEnd/')));
   
 
 // send the word as response
@@ -76,6 +76,6 @@ app.get('/request' , (req , res) => {
 app.get('/' , (req , res) => {
     console.log("requested");
     // getWord() // change word with each refresh
-    res.sendFile(__dirname + '/anything.html')
+    res.sendFile(path.resolve('./BW-FrontEnd/index.html'))
 
 })
