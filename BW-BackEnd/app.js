@@ -14,7 +14,7 @@ let word = ""
 
 
 
-fs.createReadStream(__dirname + '/cities.csv')
+fs.createReadStream(path.resolve('BW-BackEnd/cities.csv'))
   .pipe(csv())
   .on('data', (data) => results.push(data))
   .on('end', () => {
